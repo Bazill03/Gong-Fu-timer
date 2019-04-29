@@ -37,7 +37,11 @@ def drink(brewTime):
         brewTime = int(brewTime)
         steepCount = int(steepCount)
         #timer
-        time.sleep(brewTime)
+        brewCounter = brewTime
+        while brewCounter > 0:
+            print(brewCounter)
+            time.sleep(1)
+            brewCounter = brewCounter - 1
         #lets the user know they need to pour
         print("Finished!")
         #friendly notification that the user needs to pour
@@ -47,17 +51,12 @@ def drink(brewTime):
         #Changes the steep count
         steepCount = steepCount + 1
         #asks the user if ready for next steep
-        confirm = input("Ready to go again? y/n:")
+        confirm = input("Press ENTER to begin your next infusion...")
         #if the user is ready for the next steep, calls the timer
-        if(confirm == "y"):
-            drink(brewTime)
-        else:
-            #or exits the program
-            print("Hope you had a great session 😊!")
-            exit()
+        drink(brewTime)
     return
 
 
 #waits for user to begin timer
-input("Press enter to start steeping...")
+input("Press ENTER to begin infusion...")
 drink(intBrewTime)
