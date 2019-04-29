@@ -1,5 +1,7 @@
 import time
 import sys
+from playsound import playsound
+
 
 #variables
 #Gets users initial brewing time and converts it to int
@@ -12,6 +14,8 @@ maxSteepConfirm = input("Would you like to set a max number of steeps? y/n: ")
 maxSteepBool = False
 #number of steeps
 steepCount = "1"
+#max number of steeps
+maxSteep = 0
 
 if(maxSteepConfirm == "y"):
     maxSteepBool = True
@@ -20,6 +24,7 @@ if(maxSteepConfirm == "y"):
 
 def drink(brewTime):
     global steepCount
+    global maxSteep
     if(steepCount == maxSteep+1 and maxSteepBool == True):
         print("You've reached your max steeps. Hope you had a great session 😊!")
     else:
@@ -35,6 +40,8 @@ def drink(brewTime):
         time.sleep(brewTime)
         #lets the user know they need to pour
         print("Finished!")
+        #friendly notification that the user needs to pour
+        playsound('notification.wav')
         #Adds the brew interval to total brew time
         brewTime = brewTime + brewInt
         #Changes the steep count
