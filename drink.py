@@ -1,7 +1,28 @@
+#!/usr/bin/env python           
+  
 import time
 import sys
+from argparse import ArgumentParser
 from playsound import playsound
 
+#playspace
+parser = ArgumentParser()
+parser.add_argument("-c", "--custom", help="create custom timer")
+parser.add_argument("-t", "--tea", help="Starts the program with preset parameters. Not currently working")
+parser.add_argument("-e", "--enter", help="Enter in a custom tea. Start with --tea")
+args = parser.parse_args()
+
+if args.custom:
+    custom = args.custom
+    print("Custom timer started for " + custom + " seconds.")
+    custom = int(custom)
+    while custom > 0:
+        print(custom)
+        time.sleep(1)
+        custom = custom - 1
+    playsound("notification.wav")
+    print("Your custom timer is finished.")
+    exit()
 
 #variables
 #Gets users initial brewing time and converts it to int
@@ -17,9 +38,15 @@ steepCount = "1"
 #max number of steeps
 maxSteep = 0
 
-if(maxSteepConfirm == "y"):
-    maxSteepBool = True
-    maxSteep = int(input("How many steeps?: "))
+if(maxSteepConfirm is "y" or "n"):
+    if(maxSteepConfirm is "y"):
+        maxSteepBool = True
+        maxSteep = int(input("How many steeps?: "))
+    elif(maxSteepConfirm is "n"): 
+        maxSteepBool = False
+elif(maxSteepConfirm != "y" or "n"): 
+    print("Please enter y/n")
+    maxSteepConfirm = input("Would you like to set a max number of steeps? y/n: ")
 
 
 def drink(brewTime):
