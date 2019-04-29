@@ -53,6 +53,7 @@ def drink(brewTime):
             drink(brewTime)
         else:
             #or exits the program
+            print("Hope you had a great session 😊!")
             exit()
     return
 
