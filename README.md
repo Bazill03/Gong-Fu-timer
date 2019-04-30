@@ -5,4 +5,14 @@ Allows you to set the initial infusion time, as well as the interval for subsequ
 
 You may also set a max number of infusions and the system will let you know when you've had a set number of infusions.
 
-Simply launch the program, and follow the promts.
+You may simply launch the program, and follow the promts, or use command line arguments.
+
+-t "tea" : This names the tea and will be more important for future functionality.
+
+-ib "initial brew" : Sets the initial brew time.
+
+-bi "brew Interval" : Sets the brew interval to be added to the initial brew time for each subsequent infusion.
+
+-ms[optional] "max steeps" : Sets the max number of steeps. The program will exit out and let you know when you're finished with your session.
+
+Example: drink.py -t "Alishan Cream" -ib 20 -bi 5 -ms 8

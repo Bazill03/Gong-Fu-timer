@@ -28,13 +28,14 @@ parser.add_argument("-ms", "--maxsteep", help="Sets a max number of steeps and w
 
 args = parser.parse_args()
 
+#countdown function
 def timer(countdown):
     while countdown > 0:
         print(countdown)
         time.sleep(1)
         countdown = countdown - 1
 
-
+#main function of the program
 def drink(brewTime, brewInt):
     global steepCount
     global maxSteep
@@ -67,6 +68,7 @@ def drink(brewTime, brewInt):
         drink(brewTime, brewInt)
     return
 
+#This code is run if the user uses all 4 arguments. Simply assins the variables and runs the drink function.
 if args.tea and args.initial and args.interval and args.maxsteep:
     #tea
     tea = args.tea
@@ -90,6 +92,7 @@ if args.tea and args.initial and args.interval and args.maxsteep:
     input("Press ENTER to begin infusion...")
     drink(tea.int_brew, tea.brew_int)
 
+#added this in case the user does not include a maxsteeps arguement
 if args.tea and args.initial and args.interval:
     #tea
     tea = args.tea
@@ -119,6 +122,8 @@ if args.custom:
     print("Your custom timer is finished.")
     #exits the program
     exit()
+
+#If the user does not select any arguments, the program will run from here.
 
 #variables
 #Gets users initial brewing time and converts it to int
