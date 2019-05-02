@@ -4,6 +4,7 @@ import time
 import sys
 from argparse import ArgumentParser
 from playsound import playsound
+import pickle
 
 class CustomTea:
     "Allows the user to construct a custom tea"
@@ -20,6 +21,7 @@ maxSteep = 0
 
 #arguments
 parser = ArgumentParser()
+parser.add_argument("-nt","--newtea", help="runs the new tea utility with the name of the tea.")
 parser.add_argument("-c", "--custom", help="create custom timer")
 parser.add_argument("-t", "--tea", help="Starts the program with preset parameters.")
 parser.add_argument("-ib", "--initial", help="Sets the initial brew time for a custom tea.")
@@ -33,7 +35,10 @@ def timer(countdown):
     while countdown > 0:
         print(countdown)
         time.sleep(1)
-        countdown = countdown - 1
+        countdown -= 1
+
+def confirm():
+    waiting = input("Please press ENTER to begin...")
 
 #main function of the program
 def drink(brewTime, brewInt):
@@ -59,16 +64,48 @@ def drink(brewTime, brewInt):
         #friendly notification that the user needs to pour
         playsound('notification.wav')
         #Adds the brew interval to total brew time
-        brewTime = brewTime + brewInt
+        brewTime += brewInt
         #Changes the steep count
-        steepCount = steepCount + 1
+        steepCount += 1
         #asks the user if ready for next steep
-        confirm = input("Press ENTER to begin your next infusion...")
+        confirm()
         #if the user is ready for the next steep, calls the timer
         drink(brewTime, brewInt)
     return
 
-#This code is run if the user uses all 4 arguments. Simply assins the variables and runs the drink function.
+#This code runs if the user only specifies the -t tag
+if args.newtea:
+   print("Welcome to the custom tea wizard!")
+   teaCreator_tea = args.newtea
+   teaCreator_int_brew = input("Please enter the inital brew time in seconds: ")
+   teaCreator_brew_int = input("Please enter the interval time in seconds: ")
+   teaCreator_max_steep = input("Please enter the max steeps for this tea: ")
+   teaDict = {1:teaCreator_tea,2:teaCreator_int_brew,3:teaCreator_brew_int,4:teaCreator_max_steep}
+   pickle_out = open(teaCreator_tea + ".pickle","wb")
+   pickle.dump(teaDict, pickle_out)
+
+   print("===============")
+   print("You've entered the tea name: " + teaDict[1])
+   print("Inital steep for " + teaDict[1] + " will be " + teaDict[2] + " seconds.")
+   print("Brew interval for " + teaDict[1] + " will be " + teaDict[3] + " seconds.")
+   print(teaDict[1] + " will go for " + teaDict[4] + " rounds.")
+   print("Please run the timer with -t " + teaDict[1] + ".")
+   pickle_out.close()
+   exit();
+
+if args.tea:
+    #this code runs if the user wants to begin a saved tea
+    teaDict = str(args.tea + ".pickle")
+    pickle_in = open(teaDict, "rb")
+    teaPickle = pickle.load(pickle_in)
+    print("You will be enjoying: " + teaPickle[1] + " for " + teaPickle[4] + " steeps. Enjoy! 😁")
+    maxSteep = int(teaPickle[4])
+    confirm()
+    drink(teaPickle[2],teaPickle[3])
+    pickle_in.close()
+
+
+#This code is run if the user uses all 4 arguments. Simply assgins the variables and runs the drink function.
 if args.tea and args.initial and args.interval and args.maxsteep:
     #tea
     tea = args.tea
@@ -131,19 +168,20 @@ intBrewTime = int(input("Enter initial brewing time: "))
 #gets users brewing interval
 brewInt = int(input("Enter brewing interval: "))
 #asks the user if they want to set a max number of steeps
-maxSteepConfirm = input("Would you like to set a max number of steeps? y/n: ")
 
-
-if(maxSteepConfirm is "y" or "n"):
-    if(maxSteepConfirm is "y"):
+while True:
+    maxSteepConfirm = input("Would you like to set a max number of steeps? y/n: ")
+    if maxSteepConfirm == "y":
         maxSteepBool = True
         maxSteep = int(input("How many steeps?: "))
-    elif(maxSteepConfirm is "n"):
+        break
+    elif maxSteepConfirm == "n":
         maxSteepBool = False
-elif(maxSteepConfirm != "y" or "n"):
-    print("Please enter y/n")
-    maxSteepConfirm = input("Would you like to set a max number of steeps? y/n: ")
+        break
+    else:
+        print("Please enter y/n")
+        maxSteepConfirm = input("Would you like to set a max number of steeps? y/n: ")
 
 
 
-drink(intBrewTime)
+drink(intBrewTime, brewInt)
