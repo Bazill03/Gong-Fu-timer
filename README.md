@@ -16,3 +16,13 @@ You may simply launch the program, and follow the promts, or use command line ar
 -ms[optional] "max steeps" : Sets the max number of steeps. The program will exit out and let you know when you're finished with your session.
 
 Example: drink.py -t "Alishan Cream" -ib 20 -bi 5 -ms 8
+
+If you'd like to store teas for later use use the -nt argument with the name of the tea in quotes or with no spaces.
+
+Example: drink.py -nt "Alishan Cream"
+
+This will prompt you to enter the rest of the parameters.
+
+When you'd like to brew your tea simply enter:
+
+drink.py -t "Alishan Cream"

@@ -100,6 +100,7 @@ if args.tea:
     teaPickle = pickle.load(pickle_in)
     print("You will be enjoying: " + teaPickle[1] + " for " + teaPickle[4] + " steeps. Enjoy! 😁")
     maxSteep = int(teaPickle[4])
+    maxSteepBool = True
     confirm()
     drink(teaPickle[2],teaPickle[3])
     pickle_in.close()
